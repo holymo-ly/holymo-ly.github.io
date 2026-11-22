@@ -1,0 +1,88 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+backend:
+  name: github
+  repo: holymo-ly/holymo-ly.github.io
+  branch: main
+  auth_methods: [token]
+
+publish_mode: simple
+site_url: https://holymo-ly.github.io
+display_url: https://holymo-ly.github.io
+media_folder: public/uploads
+public_folder: /uploads
+output:
+  omit_empty_optional_fields: true
+
+collections:
+  - name: blog
+    label: 블로그
+    label_singular: 블로그 글
+    folder: src/content/blog
+    create: true
+    extension: md
+    slug: '{{slug}}'
+    preview_path: blog/{{slug}}/
+    fields:
+      - { name: title, label: 제목, widget: string }
+      - { name: description, label: 요약, widget: text }
+      - { name: pubDate, label: 작성일, widget: datetime, format: YYYY-MM-DD, default: '{{now}}' }
+      - { name: updatedDate, label: 수정일, widget: datetime, format: YYYY-MM-DD, required: false }
+      - { name: category, label: 분류, widget: string, default: Thoughts }
+      - { name: tags, label: 태그, widget: list, required: false }
+      - { name: relatedRepo, label: 관련 저장소 URL, widget: string, required: false }
+      - { name: draft, label: 초안, widget: boolean, default: true }
+      - { name: body, label: 본문, widget: markdown }
+
+  - name: projects
+    label: 프로젝트
+    label_singular: 프로젝트
+    folder: src/content/projects
+    create: true
+    extension: md
+    slug: '{{slug}}'
+    fields:
+      - { name: title, label: 프로젝트명, widget: string }
+      - { name: description, label: 요약, widget: text }
+      - { name: role, label: 역할, widget: string }
+      - { name: status, label: 상태, widget: string }
+      - { name: order, label: 정렬 순서, widget: number, default: 99 }
+      - { name: repoUrl, label: 공개 저장소 URL, widget: string, required: false }
+      - { name: draft, label: 초안, widget: boolean, default: true }
+      - { name: body, label: 본문, widget: markdown }
+
+  - name: research
+    label: 연구 주제
+    label_singular: 연구 주제
+    folder: src/content/research
+    create: true
+    extension: md
+    slug: '{{slug}}'
+    fields:
+      - { name: title, label: 주제, widget: string }
+      - { name: description, label: 요약, widget: text }
+      - { name: status, label: 상태, widget: string }
+      - { name: updatedDate, label: 수정일, widget: datetime, format: YYYY-MM-DD, required: false }
+      - { name: draft, label: 초안, widget: boolean, default: true }
+      - { name: body, label: 본문, widget: markdown }
+
+  - name: pages
+    label: 소개 페이지
+    files:
+      - name: about
+        label: About the author
+        file: src/content/pages/about.md
+        preview_path: /about/
+        fields:
+          - { name: title, label: 페이지 제목, widget: string }
+          - { name: description, label: 검색 요약, widget: text }
+          - { name: name, label: 이름, widget: string }
+          - { name: englishName, label: 영문 이름, widget: string }
+          - { name: school, label: 학교, widget: string }
+          - { name: major, label: 전공, widget: string }
+          - { name: position, label: 학적, widget: string }
+          - name: activities
+            label: 참가·활동
+            widget: list
+            required: false
+            field: { name: activity, label: 활동, widget: string }
+          - { name: body, label: 소개 본문, widget: markdown }

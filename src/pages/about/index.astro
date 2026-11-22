@@ -1,0 +1,30 @@
+---
+import { getEntry, render } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import { SITE_TITLE } from '../../consts';
+
+const profile = await getEntry('pages', 'about');
+if (!profile) throw new Error('About profile content is missing.');
+const { Content } = await render(profile);
+---
+<PageLayout title={`About | ${SITE_TITLE}`} description={profile.data.description}>
+	<main>
+		<header class="page-header">
+			<span class="eyebrow">About the author</span>
+			<h1>{profile.data.name} <span class="english-name">/ {profile.data.englishName}</span></h1>
+			<p class="page-lead">{profile.data.school} {profile.data.major} {profile.data.position}</p>
+		</header>
+		<section class="detail-card" aria-labelledby="activities-heading">
+			<h2 id="activities-heading">참가·활동</h2>
+			<ul class="activity-list">
+				{profile.data.activities.map((activity) => <li>{activity}</li>)}
+			</ul>
+		</section>
+		<article class="prose about-copy"><Content /></article>
+	</main>
+</PageLayout>
+<style>
+	.english-name { color: var(--muted); font-size: clamp(18px, 2.2vw, 25px); font-weight: 500; letter-spacing: 0; }
+	.activity-list { margin: 14px 0 0; padding-left: 21px; color: var(--muted); }
+	.about-copy { margin-top: 28px; }
+</style>
