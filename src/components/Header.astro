@@ -1,0 +1,16 @@
+---
+import HeaderLink from './HeaderLink.astro';
+---
+<header class="site-header">
+	<div class="nav-shell">
+		<a class="site-mark" href="/" aria-label="holymo-ly 블로그 홈">
+			<span class="mark-square">HL</span>
+			<span class="mark-name">HOLYMO-LY<small>DEVELOPMENT NOTES</small></span>
+		</a>
+		<nav class="nav-links" aria-label="주요 메뉴">
+			<HeaderLink href="/">홈</HeaderLink>
+			<HeaderLink href="/blog">블로그</HeaderLink>
+		</nav>
+		<a class="nav-github" href="https://github.com/holymo-ly" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+	</div>
+</header>

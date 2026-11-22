@@ -1,0 +1,33 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import PageLayout from './PageLayout.astro';
+import { SITE_TITLE } from '../consts';
+
+type Props = CollectionEntry<'blog'>['data'];
+const { title, description, pubDate, updatedDate, category, tags, relatedRepo } = Astro.props;
+---
+<PageLayout title={`${title} | ${SITE_TITLE}`} description={description}>
+	<main>
+		<header class="page-header article-header">
+			<span class="eyebrow">{category}</span>
+			<h1>{title}</h1>
+			<p class="page-lead">{description}</p>
+			<div class="article-meta">
+				<time datetime={pubDate.toISOString().slice(0, 10)}>{pubDate.toLocaleDateString('ko-KR')}</time>
+				{updatedDate && <span>수정 {updatedDate.toLocaleDateString('ko-KR')}</span>}
+				{relatedRepo && <a href={relatedRepo} target="_blank" rel="noopener noreferrer">관련 저장소 ↗</a>}
+			</div>
+			{tags.length > 0 && <div class="article-tags">{tags.map((tag) => <span class="tag">#{tag}</span>)}</div>}
+		</header>
+		<article class="prose"><slot /></article>
+		<nav class="article-back" aria-label="목록으로 돌아가기"><a href="/blog">← 블로그 목록</a></nav>
+	</main>
+</PageLayout>
+<style>
+	.article-header { max-width: 760px; margin-left: auto; margin-right: auto; }
+	.article-header h1 { line-height: 1.28; }
+	.article-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; color: var(--muted); font-size: 13px; }
+	.article-meta a, .article-back a { color: var(--accent); text-decoration: none; }
+	.article-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 13px; }
+	.article-back { max-width: 760px; margin: 55px auto 0; padding-top: 23px; border-top: 1px solid var(--border); font-size: 14px; }
+</style>
