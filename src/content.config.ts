@@ -17,4 +17,43 @@ const blog = defineCollection({
     draft: z.boolean().default(false),
   }),
 });
-export const collections = { blog };
+
+const projects = defineCollection({
+  loader: glob({ base: './src/content/projects', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    role: z.string(),
+    status: z.string(),
+    order: z.number().default(99),
+    repoUrl: z.union([z.literal(''), z.string().url()]).optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+const research = defineCollection({
+  loader: glob({ base: './src/content/research', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    status: z.string(),
+    updatedDate: z.coerce.date().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+const pages = defineCollection({
+  loader: glob({ base: './src/content/pages', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    name: z.string(),
+    englishName: z.string(),
+    school: z.string(),
+    major: z.string(),
+    position: z.string(),
+    activities: z.array(z.string()).default([]),
+  }),
+});
+
+export const collections = { blog, projects, research, pages };

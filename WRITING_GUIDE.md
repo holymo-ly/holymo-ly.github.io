@@ -7,9 +7,10 @@
 1. `src/content/blog/` 아래에 영문 소문자와 하이픈을 사용한 파일명을 만듭니다. 예: `ctf-os-test-notes.md`.
 2. 아래 형식으로 글의 메타데이터를 작성하고, 처음에는 `draft: true`로 저장합니다.
 3. 로컬에서 미리보기와 빌드를 확인하고, 공개해도 되는 내용인지 검토합니다.
-4. 검토가 끝나면 `draft: false`로 바꾸고 변경사항을 커밋합니다.
-5. 변경사항을 `main`에 반영하면 GitHub Actions가 사이트를 빌드하고 GitHub Pages에 배포합니다.
-6. Actions 실행이 성공하면 [공개 사이트](https://holymo-ly.github.io/)와 글 주소를 확인합니다.
+4. 검토가 끝나면 `draft: false`로 바꿉니다.
+5. Sveltia CMS에서 저장하거나, 로컬 Markdown 변경사항을 Pull Request로 `main`에 반영합니다.
+6. GitHub Actions가 사이트를 빌드하고 GitHub Pages에 배포합니다.
+7. Actions 실행이 성공하면 [공개 사이트](https://holymo-ly.github.io/)와 글 주소를 확인합니다.
 
 ```md
 ---
@@ -81,6 +82,15 @@ draft: true
 
 저장소가 공개되어 있으므로 `draft: true`여도 커밋된 원문은 GitHub에서 볼 수 있습니다. 초안은 웹사이트 노출만 막으며 비공개 보관 기능이 아닙니다. 비밀 정보나 공개 전 자료를 저장소에 커밋하지 마세요.
 
+## Sveltia CMS에서 작성하기
+
+1. [관리자 화면](https://holymo-ly.github.io/admin/)을 엽니다.
+2. **Sign In with Token**을 선택하고 본인의 GitHub fine-grained token으로 로그인합니다.
+3. 블로그, 프로젝트, 연구 주제 또는 About 내용을 편집하고 저장합니다.
+4. 저장 후 GitHub 저장소의 `main`에 커밋되었는지 확인하고, Actions 배포가 끝나면 공개 사이트를 확인합니다.
+
+토큰은 GitHub의 **Settings → Developer settings → Personal access tokens → Fine-grained tokens**에서 만듭니다. Resource owner는 `holymo-ly`, 저장소는 `holymo-ly.github.io`만 선택하고 `Contents: Read and write` 권한을 부여합니다. 토큰을 소스코드나 채팅에 붙이지 말고 관리자 화면에만 입력하세요. Sveltia CMS는 토큰을 사용 중인 브라우저의 localStorage에 보관합니다. 공유 PC에서는 사용하지 말고, 분실·노출이 의심되면 GitHub에서 토큰을 폐기하세요. 관리자 URL의 `noindex`는 검색엔진 안내일 뿐 접근 제어가 아닙니다. 저장소 쓰기 권한이 없으면 글을 저장할 수 없습니다.
+
 ## 로컬에서 미리보기
 
 저장소 루트에서 Node.js 버전을 확인합니다. 현재 프로젝트는 Node.js `22.23.4` 이상이 필요합니다.
@@ -117,7 +127,7 @@ GitHub에서 Pull Request를 열어 빌드 결과와 글 내용을 확인한 뒤
 - RSS: `https://holymo-ly.github.io/rss.xml`
 - Sitemap: `https://holymo-ly.github.io/sitemap-index.xml`
 
-현재 저장소에는 `/admin/`과 Sveltia CMS가 설정되어 있지 않습니다. 따라서 CMS 관리자 로그인이나 PAT를 사용하지 않고 Markdown/MDX 파일을 직접 수정합니다. 나중에 CMS를 추가하면 설정과 실제 저장 동작을 확인한 뒤 이 가이드를 갱신합니다.
+Sveltia CMS는 Simple Workflow로 `main`에 직접 커밋합니다. 이 저장소의 `main`에는 보호 규칙이 없으므로 CMS 저장 전에 글의 공개 범위와 내용을 확인하세요. 수동 편집은 작업 브랜치와 Pull Request를 사용하는 것을 권장합니다. 관리자 정적 파일은 `public/admin/`에 있으며, 로컬 개발 서버에서는 `http://localhost:4321/admin/index.html`로 엽니다.
 
 ---
 

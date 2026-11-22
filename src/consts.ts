@@ -1,2 +1,2 @@
-export const SITE_TITLE = 'holymo-ly | 개발 기록';
-export const SITE_DESCRIPTION = '공부와 프로젝트를 진행하며 배운 내용을 차곡차곡 기록합니다.';
+export const SITE_TITLE = '김호원 | HOWON KIM';
+export const SITE_DESCRIPTION = '상명대학교 정보보안공학과 김호원의 학습과 프로젝트 기록입니다.';

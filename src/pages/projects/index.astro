@@ -1,0 +1,40 @@
+---
+import { getCollection, render } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import { SITE_TITLE } from '../../consts';
+
+const projects = (await getCollection('projects', ({ data }) => !data.draft))
+	.sort((a, b) => a.data.order - b.data.order);
+const projectsWithContent = [];
+for (const project of projects) {
+	const { Content } = await render(project);
+	projectsWithContent.push({ project, ProjectBody: Content });
+}
+---
+<PageLayout title={`프로젝트 | ${SITE_TITLE}`} description="김호원이 참여한 정보보안 팀 프로젝트와 진행 중인 캡스톤을 소개합니다.">
+	<main>
+		<header class="page-header">
+			<span class="eyebrow">Projects</span>
+			<h1>프로젝트</h1>
+			<p class="page-lead">팀에서 맡은 역할과 확인 가능한 작업을 중심으로 정리합니다. 공개 저장소가 없는 프로젝트는 공개 가능한 개요만 소개합니다.</p>
+		</header>
+		<section class="project-list" aria-label="프로젝트 목록">
+			{projectsWithContent.length ? projectsWithContent.map(({ project, ProjectBody }) => (
+				<article class="detail-card project-detail">
+					<div class="card-meta"><span class="tag">{project.data.status}</span><span class="tag neutral">{project.data.role}</span></div>
+					<h2>{project.data.title}</h2>
+					<p class="project-description">{project.data.description}</p>
+					<div class="prose project-body"><ProjectBody /></div>
+					{project.data.repoUrl && <a class="text-link" href={project.data.repoUrl} target="_blank" rel="noopener noreferrer">공개 저장소 보기 ↗</a>}
+				</article>
+			)) : <p class="empty-state">아직 공개할 프로젝트가 없습니다.</p>}
+		</section>
+	</main>
+</PageLayout>
+<style>
+	.project-list { display: grid; gap: 16px; }
+	.project-detail h2 { margin: 8px 0 12px; }
+	.project-description { color: var(--muted); font-size: 14px; line-height: 1.9; }
+	.project-body { margin: 16px 0 0; }
+	.project-detail .text-link { display: inline-block; margin-top: 16px; }
+</style>

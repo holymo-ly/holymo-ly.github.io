@@ -1,0 +1,36 @@
+---
+import { getCollection, render } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import { SITE_TITLE } from '../../consts';
+
+const items = await getCollection('research', ({ data }) => !data.draft);
+const itemsWithContent = [];
+for (const item of items) {
+	const { Content } = await render(item);
+	itemsWithContent.push({ item, ResearchBody: Content });
+}
+---
+<PageLayout title={`Research | ${SITE_TITLE}`} description="멀티 MCP 환경의 권한과 데이터 흐름을 다루는 진행 중인 보안 연구 주제입니다.">
+	<main>
+		<header class="page-header">
+			<span class="eyebrow">Research</span>
+			<h1>연구 주제</h1>
+			<p class="page-lead">공개 가능한 범위에서 현재 다루는 주제와 진행 흐름을 소개합니다. 상세한 실험과 구현 내용은 팀의 공개 결정에 따라 추가합니다.</p>
+		</header>
+		<section aria-label="연구 주제 목록">
+			{itemsWithContent.length ? itemsWithContent.map(({ item, ResearchBody }) => (
+				<article class="detail-card research-card">
+					<div class="card-meta"><span class="tag">{item.data.status}</span></div>
+					<h2>{item.data.title}</h2>
+					<p class="research-description">{item.data.description}</p>
+					<div class="prose"><ResearchBody /></div>
+				</article>
+			)) : <p class="empty-state">공개할 연구 주제를 정리하고 있습니다.</p>}
+		</section>
+		<p class="callout">캡스톤은 진행 중이며, 아직 공개하지 않기로 한 구현·실험 세부사항은 이 페이지에 포함하지 않습니다.</p>
+	</main>
+</PageLayout>
+<style>
+	.research-card h2 { margin: 8px 0 12px; }
+	.research-description { margin-bottom: 12px; color: var(--muted); font-size: 14px; line-height: 1.9; }
+</style>
