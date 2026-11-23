@@ -26,7 +26,7 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft))
 			<aside class="terminal" aria-label="참가 경험">
 				<div class="terminal-head">ACTIVITIES / 2026</div>
 				<div class="terminal-body">
-					<p><span class="muted">$</span> 참가 경험</p>
+					<p><span class="muted">$</span>참가 경험</p>
 					{profile.activities.map((activity) => <p><span class="accent">·</span> {activity}</p>)}
 				</div>
 			</aside>
